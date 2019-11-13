@@ -1,0 +1,17 @@
+{
+  "name": "aoc2016",
+  "version": "1.0.0",
+  "author": "Lorenz Henk <lhspot@gmx.at>",
+  "license": "MIT",
+  "dependencies": {
+    "ts-node": "^8.5.0",
+    "typescript": "^3.7.2"
+  },
+  "scripts": {
+    "day01": "yarn node -r ts-node/register day01/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.7",
+    "prettier": "^1.19.1"
+  }
+}
