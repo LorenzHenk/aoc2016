@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest",
-    "day01": "yarn node -r ts-node/register day01/index.ts"
+    "start": "yarn node -r ts-node/register index.ts"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
