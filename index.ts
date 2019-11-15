@@ -4,6 +4,8 @@ const day = process.argv[2];
 
 const input = readFileSync(`${day}/INPUT`).toString();
 
-import(`./${day}`).then((value: { default: (input: string) => any }) =>
-  console.log(value.default(input)),
+type daySolver = (input: string) => any;
+
+import(`./${day}`).then((value: { first: daySolver; second: daySolver }) =>
+  console.log(value.first(input), value.second?.(input)),
 );
