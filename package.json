@@ -4,16 +4,19 @@
   "author": "Lorenz Henk <lhspot@gmx.at>",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^3.0.0",
+    "commander": "^4.0.1",
     "ts-node": "^8.5.0",
     "typescript": "^3.7.2"
   },
   "scripts": {
     "test": "jest",
-    "start": "yarn node -r ts-node/register index.ts"
+    "start": "yarn node -r ts-node/register src/index.ts"
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/jest": "^24.0.23",
-    "@types/node": "^12.12.7",
+    "@types/node": "^12.12.8",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "ts-jest": "^24.1.0"
