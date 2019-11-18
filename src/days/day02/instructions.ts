@@ -1,3 +1,5 @@
+import { Grid } from "./grids";
+
 export enum Instruction {
   Up,
   Down,
@@ -26,33 +28,39 @@ export const toInstruction = (text: string): Instruction => {
   return instruction;
 };
 
+interface Position {
+  x: number;
+  y: number;
+}
+
+export const checkPosition = (position: Position, grid: Grid) =>
+  grid[position.y]?.[position.x] !== undefined;
+
 export const changePosition = (
-  currentPosition: number,
+  currentPosition: Position,
   instruction: Instruction,
+  grid: Grid,
 ) => {
-  let newPosition: number;
-  let newPositionValid: boolean;
+  let newPosition: Position;
 
   switch (instruction) {
     case Instruction.Up:
-      newPosition = currentPosition - 3;
-      newPositionValid = newPosition >= 1;
+      newPosition = { ...currentPosition, y: currentPosition.y - 1 };
       break;
     case Instruction.Down:
-      newPosition = currentPosition + 3;
-      newPositionValid = newPosition <= 9;
+      newPosition = { ...currentPosition, y: currentPosition.y + 1 };
       break;
     case Instruction.Left:
-      newPosition = currentPosition - 1;
-      // if going left, we can not be on the right side
-      newPositionValid =
-        [3, 6, 9].indexOf(newPosition) === -1 && newPosition >= 1;
+      newPosition = { ...currentPosition, x: currentPosition.x - 1 };
       break;
     case Instruction.Right:
-      newPosition = currentPosition + 1;
-      // if going right, we cannot be on the left side
-      newPositionValid =
-        [1, 4, 7].indexOf(newPosition) === -1 && newPosition <= 9;
+      newPosition = { ...currentPosition, x: currentPosition.x + 1 };
+      break;
   }
-  return newPositionValid ? newPosition : currentPosition;
+  return checkPosition(newPosition, grid) ? newPosition : currentPosition;
 };
+
+export const prepareChangePosition = (grid: Grid) => (
+  currentPosition: Position,
+  instruction: Instruction,
+) => changePosition(currentPosition, instruction, grid);

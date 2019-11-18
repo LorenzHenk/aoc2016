@@ -1,4 +1,19 @@
-import { changePosition, Instruction, toInstruction } from "./instructions";
+import {
+  prepareChangePosition,
+  Instruction,
+  toInstruction,
+  checkPosition,
+} from "./instructions";
+import { grid1, grid2 } from "./grids";
+
+describe("Test checkPosition", () => {
+  test("Grid 1 top left is true", () => {
+    expect(checkPosition({ x: 0, y: 0 }, grid1)).toBeTruthy();
+  });
+  test("Grid 2 top left is false", () => {
+    expect(checkPosition({ x: 0, y: 0 }, grid2)).toBeFalsy();
+  });
+});
 
 describe("Test toInstruction", () => {
   test("Convert U to Up", () => {
@@ -21,90 +36,130 @@ describe("Test toInstruction", () => {
 
 describe("Move from center", () => {
   test("Move Up", () => {
-    expect(changePosition(5, Instruction.Up)).toEqual(2);
+    expect(
+      prepareChangePosition(grid1)({ x: 1, y: 1 }, Instruction.Up),
+    ).toEqual({ x: 1, y: 0 });
   });
 
   test("Move Right", () => {
-    expect(changePosition(5, Instruction.Right)).toEqual(6);
+    expect(
+      prepareChangePosition(grid1)({ x: 1, y: 1 }, Instruction.Right),
+    ).toEqual({ x: 2, y: 1 });
   });
 
   test("Move Down", () => {
-    expect(changePosition(5, Instruction.Down)).toEqual(8);
+    expect(
+      prepareChangePosition(grid1)({ x: 1, y: 1 }, Instruction.Down),
+    ).toEqual({ x: 1, y: 2 });
   });
 
   test("Move Left", () => {
-    expect(changePosition(5, Instruction.Left)).toEqual(4);
+    expect(
+      prepareChangePosition(grid1)({ x: 1, y: 1 }, Instruction.Left),
+    ).toEqual({ x: 0, y: 1 });
   });
 });
 
 describe("Move from top left corner", () => {
   test("Move Up, stay", () => {
-    expect(changePosition(1, Instruction.Up)).toEqual(1);
+    expect(
+      prepareChangePosition(grid1)({ x: 0, y: 0 }, Instruction.Up),
+    ).toEqual({ x: 0, y: 0 });
   });
 
   test("Move Right", () => {
-    expect(changePosition(1, Instruction.Right)).toEqual(2);
+    expect(
+      prepareChangePosition(grid1)({ x: 0, y: 0 }, Instruction.Right),
+    ).toEqual({ x: 1, y: 0 });
   });
 
   test("Move Down", () => {
-    expect(changePosition(1, Instruction.Down)).toEqual(4);
+    expect(
+      prepareChangePosition(grid1)({ x: 0, y: 0 }, Instruction.Down),
+    ).toEqual({ x: 0, y: 1 });
   });
 
   test("Move Left, stay", () => {
-    expect(changePosition(1, Instruction.Left)).toEqual(1);
+    expect(
+      prepareChangePosition(grid1)({ x: 0, y: 0 }, Instruction.Left),
+    ).toEqual({ x: 0, y: 0 });
   });
 });
 
 describe("Move from top right corner", () => {
   test("Move Up, stay", () => {
-    expect(changePosition(3, Instruction.Up)).toEqual(3);
+    expect(
+      prepareChangePosition(grid1)({ x: 2, y: 0 }, Instruction.Up),
+    ).toEqual({ x: 2, y: 0 });
   });
 
   test("Move Right, stay", () => {
-    expect(changePosition(3, Instruction.Right)).toEqual(3);
+    expect(
+      prepareChangePosition(grid1)({ x: 2, y: 0 }, Instruction.Right),
+    ).toEqual({ x: 2, y: 0 });
   });
 
   test("Move Down", () => {
-    expect(changePosition(3, Instruction.Down)).toEqual(6);
+    expect(
+      prepareChangePosition(grid1)({ x: 2, y: 0 }, Instruction.Down),
+    ).toEqual({ x: 2, y: 1 });
   });
 
   test("Move Left", () => {
-    expect(changePosition(3, Instruction.Left)).toEqual(2);
+    expect(
+      prepareChangePosition(grid1)({ x: 2, y: 0 }, Instruction.Left),
+    ).toEqual({ x: 1, y: 0 });
   });
 });
 
 describe("Move from bottom right corner", () => {
   test("Move Up", () => {
-    expect(changePosition(9, Instruction.Up)).toEqual(6);
+    expect(
+      prepareChangePosition(grid1)({ x: 2, y: 2 }, Instruction.Up),
+    ).toEqual({ x: 2, y: 1 });
   });
 
   test("Move Right, stay", () => {
-    expect(changePosition(9, Instruction.Right)).toEqual(9);
+    expect(
+      prepareChangePosition(grid1)({ x: 2, y: 2 }, Instruction.Right),
+    ).toEqual({ x: 2, y: 2 });
   });
 
   test("Move Down, stay", () => {
-    expect(changePosition(9, Instruction.Down)).toEqual(9);
+    expect(
+      prepareChangePosition(grid1)({ x: 2, y: 2 }, Instruction.Down),
+    ).toEqual({ x: 2, y: 2 });
   });
 
   test("Move Left", () => {
-    expect(changePosition(9, Instruction.Left)).toEqual(8);
+    expect(
+      prepareChangePosition(grid1)({ x: 2, y: 2 }, Instruction.Left),
+    ).toEqual({ x: 1, y: 2 });
   });
 });
 
 describe("Move from bottom left corner", () => {
   test("Move Up", () => {
-    expect(changePosition(7, Instruction.Up)).toEqual(4);
+    expect(
+      prepareChangePosition(grid1)({ x: 0, y: 2 }, Instruction.Up),
+    ).toEqual({ x: 0, y: 1 });
   });
 
   test("Move Right", () => {
-    expect(changePosition(7, Instruction.Right)).toEqual(8);
+    expect(
+      prepareChangePosition(grid1)({ x: 0, y: 2 }, Instruction.Right),
+    ).toEqual({ x: 1, y: 2 });
   });
 
   test("Move Down, stay", () => {
-    expect(changePosition(7, Instruction.Down)).toEqual(7);
+    expect(
+      prepareChangePosition(grid1)({ x: 0, y: 2 }, Instruction.Down),
+    ).toEqual({ x: 0, y: 2 });
   });
 
   test("Move Left, stay", () => {
-    expect(changePosition(7, Instruction.Left)).toEqual(7);
+    expect(
+      prepareChangePosition(grid1)({ x: 0, y: 2 }, Instruction.Left),
+    ).toEqual({ x: 0, y: 2 });
   });
 });

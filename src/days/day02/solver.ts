@@ -1,7 +1,9 @@
 import { parseInput } from "./parser";
-import { changePosition } from "./instructions";
+import { prepareChangePosition } from "./instructions";
+import { Grid } from "./grids";
 
-export const solver = (input: string): string => {
+export const solver = (input: string, grid: Grid): string => {
+  const changePosition = prepareChangePosition(grid);
   return parseInput(input)
     .reduce(
       (solutions, instructions) => [
@@ -11,8 +13,9 @@ export const solver = (input: string): string => {
           solutions[solutions.length - 1],
         ),
       ],
-      [5], // initial value; starting in the center
+      [{ x: (grid[0].length - 1) / 2, y: (grid.length - 1) / 2 }], // initial value; starting in the center
     )
     .slice(1) // remove initial value from the solution
+    .map(position => grid[position.y][position.x])
     .join("");
 };
