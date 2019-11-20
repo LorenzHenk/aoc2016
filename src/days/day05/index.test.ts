@@ -1,5 +1,5 @@
 import { prepareHashing } from "./hasher";
-import { solvePartOne } from "./solver";
+import { solvePartOne, solvePartTwo } from "./solver";
 
 describe("Solve README Part One", () => {
   test("Find first char of password with Door ID abc", () => {
@@ -31,5 +31,11 @@ describe("Solve README Part One", () => {
 
   test("Find password with Door ID abc", () => {
     expect(solvePartOne("abc")).toEqual("18f47a30");
+  });
+});
+
+describe("Solve README Part Two", () => {
+  test("Find password with Door ID abc", () => {
+    expect(solvePartTwo("abc")).toEqual("05ace8e3");
   });
 });
