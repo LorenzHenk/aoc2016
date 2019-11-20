@@ -1,5 +1,4 @@
-import { checker } from "./check";
-import { solver } from "./solve";
+import { solvePartOne } from "./solve";
 
 describe("Part One README", () => {
   test("Sum is 1514", () => {
@@ -9,6 +8,6 @@ describe("Part One README", () => {
       "not-a-real-room-404[oarel]",
       "totally-real-room-200[decoy]",
     ];
-    expect(solver(inputs.join("\n"))).toEqual(1514);
+    expect(solvePartOne(inputs.join("\n"))).toEqual(1514);
   });
 });
