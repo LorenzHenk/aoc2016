@@ -7,6 +7,7 @@ describe("Test checker", () => {
         id: 1,
         letters: ["a", "a", "b", "c", "a", "e", "d"],
         checksum: "abcde",
+        name: "aabc-aed",
       }),
     ).toBeTruthy();
   });

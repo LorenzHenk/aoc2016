@@ -6,6 +6,7 @@ describe("Test parseLine", () => {
       id: 1353545,
       checksum: "asdfg",
       letters: ["a", "s", "d", "f", "a", "s", "d", "d"],
+      name: "asdf-asdd",
     } as Room);
   });
 

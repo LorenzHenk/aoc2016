@@ -2,6 +2,7 @@ export interface Room {
   letters: string[];
   id: number;
   checksum: string;
+  name: string;
 }
 
 const lineRegex = /(\w+(?:-\w+)+)-(\d+)\[(\w{5})\]/;
@@ -15,6 +16,7 @@ export const parseLine = (input: string): Room => {
     letters: matches[0].split("").filter(c => c !== "-"),
     id: parseInt(matches[1], 10),
     checksum: matches[2],
+    name: matches[0],
   };
 };
 
