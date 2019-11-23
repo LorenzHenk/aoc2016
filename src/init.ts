@@ -13,7 +13,7 @@ const turner = new turndown({
   headingStyle: "atx",
   codeBlockStyle: "fenced",
   bulletListMarker: "-",
-  emDelimiter: "*",
+  emDelimiter: "**" as any, // format italic as bold too
 });
 
 export default async (day: string) => {
@@ -40,25 +40,32 @@ export default async (day: string) => {
 
   const markdown = turner.turndown(article.innerHTML) + "\n";
 
-  log("Converted to markdown", "success");
-
   const basePath = join(__dirname, "days", directoryName);
   mkdirSync(basePath);
 
   writeFileSync(join(basePath, "README.md"), markdown);
+  log("Saved instructions in README.md", "success");
 
-  log("Fetching input data");
-
-  const { data: inputData } = await axios.get(
-    `https://adventofcode.com/2016/day/${parsedDay}/input`,
-    {
-      headers: {
-        Cookie: `session=${process.env.SESSION}`,
+  log("Retrieve input data");
+  if (process.env.SESSION) {
+    const { data: inputData } = await axios.get(
+      `https://adventofcode.com/2016/day/${parsedDay}/input`,
+      {
+        headers: {
+          Cookie: `session=${process.env.SESSION}`,
+        },
       },
-    },
-  );
+    );
 
-  log("Fetched input data", "success");
-
-  writeFileSync(join(basePath, "input.ts"), `export default \`${inputData}\``);
+    writeFileSync(
+      join(basePath, "input.ts"),
+      `export default \`${inputData}\``,
+    );
+    log("Saved input data", "success");
+  } else {
+    log(
+      "Environment variable `SESSION` missing, cannot retrieve input data",
+      "warn",
+    );
+  }
 };
