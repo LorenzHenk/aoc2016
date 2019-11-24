@@ -19,3 +19,19 @@ export const solvePartOne = (input: string) => {
 
   return letters.join("");
 };
+
+export const solvePartTwo = (input: string) => {
+  const transformed = transform(parser(input));
+
+  const counts = transformed.map(letters => countBy(letters));
+
+  const letters = counts.map(c => {
+    const inv = invert(c);
+    const minimum = Object.keys(inv)
+      .map(n => parseInt(n))
+      .sort()[0];
+    return inv[minimum];
+  });
+
+  return letters.join("");
+};
