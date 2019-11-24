@@ -5,7 +5,7 @@ dotenv.config();
 
 import chalk from "chalk";
 import { log } from "./logging";
-import { runDay } from "./run";
+import { runDay } from "./exec";
 import init from "./init";
 
 program.version("1.0.0");

@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync } from "fs";
+import { writeFileSync, mkdirSync, copyFileSync } from "fs";
 
 import { join } from "path";
 
@@ -47,6 +47,8 @@ export default async (day: string) => {
   log.log("success", "Saved instructions in README.md");
 
   log.info("Retrieve input data");
+
+  let inputFileContent: string;
   if (process.env.SESSION) {
     const { data: inputData } = await axios.get(
       `https://adventofcode.com/2016/day/${parsedDay}/input`,
@@ -57,14 +59,25 @@ export default async (day: string) => {
       },
     );
 
-    writeFileSync(
-      join(basePath, "input.ts"),
-      `export default \`${inputData}\``,
-    );
-    log.log("success", "Saved input data");
+    inputFileContent = inputData;
   } else {
     log.warn(
       "Environment variable `SESSION` missing, cannot retrieve input data",
     );
+    inputFileContent = "";
   }
+
+  writeFileSync(
+    join(basePath, "input.ts"),
+    `export default \`${inputFileContent}\``,
+  );
+  log.log("success", "Saved input file");
+
+  log.info("Copy index template");
+
+  copyFileSync(
+    join(__dirname, "dayTemplate.ts.template"),
+    join(basePath, "index.ts"),
+  );
+  log.log("success", "Saved index file");
 };
