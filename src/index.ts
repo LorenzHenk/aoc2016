@@ -25,8 +25,7 @@ program
   .action((day: string | undefined, options) => {
     // if day is undefined, run all days with all parts
     if (day === undefined) {
-      // TODO
-      log("Running all days...", "info");
+      log.info("Running all days...");
       for (let i = 1; i <= 25; i++) {
         runDay(`day${i.toString().padStart(2, "0")}`, {
           runPartOne: true,

@@ -19,7 +19,7 @@ const turner = new turndown({
 export default async (day: string) => {
   const value = (day.match(/day(\d+)/) ?? day.match(/(\d+)/))?.[1];
   if (!value) {
-    log(`Invalid input "${day}"`, "error");
+    log.error(`Invalid input "${day}"`);
     return;
   }
 
@@ -27,13 +27,13 @@ export default async (day: string) => {
 
   const directoryName = `day${parsedDay.toString().padStart(2, "0")}`;
 
-  log("Fetching README", "info");
+  log.info("Fetching README");
   // retrieve README for that day
   const { data: readmeData } = await axios.get(
     `https://adventofcode.com/${process.env.YEAR}/day/${parsedDay}`,
   );
 
-  log("Transforming README", "info");
+  log.verbose("Transforming README");
   const dom = new JSDOM(readmeData);
 
   const article = dom.window.document.getElementsByClassName("day-desc")[0];
@@ -44,9 +44,9 @@ export default async (day: string) => {
   mkdirSync(basePath);
 
   writeFileSync(join(basePath, "README.md"), markdown);
-  log("Saved instructions in README.md", "success");
+  log.log("success", "Saved instructions in README.md");
 
-  log("Retrieve input data");
+  log.info("Retrieve input data");
   if (process.env.SESSION) {
     const { data: inputData } = await axios.get(
       `https://adventofcode.com/2016/day/${parsedDay}/input`,
@@ -61,11 +61,10 @@ export default async (day: string) => {
       join(basePath, "input.ts"),
       `export default \`${inputData}\``,
     );
-    log("Saved input data", "success");
+    log.log("success", "Saved input data");
   } else {
-    log(
+    log.warn(
       "Environment variable `SESSION` missing, cannot retrieve input data",
-      "warn",
     );
   }
 };

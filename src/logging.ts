@@ -1,22 +1,30 @@
-import chalk from "chalk";
+import { addColors, createLogger, transports, format } from "winston";
 
-export const log = (
-  text: string,
-  severity: "success" | "warn" | "error" | "info" = "info",
-) => {
-  let color: chalk.Chalk;
-  switch (severity) {
-    case "warn":
-      color = chalk.yellow;
-      break;
-    case "success":
-      color = chalk.green;
-      break;
-    case "error":
-      color = chalk.red;
-      break;
-    default:
-      color = chalk.white;
-  }
-  console.log(color(text));
+const customLoggingLevels = {
+  levels: {
+    error: 0,
+    warn: 1,
+    success: 2,
+    info: 3,
+    verbose: 4,
+  },
+  colors: {
+    error: "red",
+    warn: "yellow",
+    success: "bold green",
+    info: "white",
+    verbose: "dim white",
+  },
 };
+
+addColors(customLoggingLevels.colors);
+
+const formatter = format.printf(
+  ({ level, message, timestamp }) => `[${timestamp}] ${level}: ${message}`,
+);
+
+export const log = createLogger({
+  levels: customLoggingLevels.levels,
+  transports: [new transports.Console()],
+  format: format.combine(format.colorize(), format.timestamp(), formatter),
+});

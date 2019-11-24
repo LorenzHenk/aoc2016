@@ -10,19 +10,20 @@ export const runDay = (
   day: string,
   options: { runPartOne: boolean; runPartTwo: boolean },
 ) => {
-  log(`Running ${day}`, "info");
-  log("Gathering input", "info");
+  log.info(`Running ${day}`);
 
   const theDay: Day = (days as any)[day];
   if (!theDay) {
-    log("Day not found", "warn");
+    log.error("Day not found");
     return;
   }
+
+  log.verbose("Gathering input");
   const { partOne, partTwo, input } = theDay;
   let { runPartOne, runPartTwo } = options;
 
   if (!options.runPartOne && !options.runPartTwo) {
-    log("No part selected, running part one and part two.", "warn");
+    log.verbose("No part selected, running part one and part two.");
     runPartOne = true;
     runPartTwo = true;
   }
@@ -43,10 +44,10 @@ interface RunPartArgs {
 type RunPart = (args: RunPartArgs) => void;
 export const runPart: RunPart = ({ part, name, input }) => {
   if (part) {
-    log(`Running part ${name}`, "info");
+    log.log("info", `Running part ${name}`);
     const result = part(input);
-    log(result, "success");
+    log.log("success", result);
   } else {
-    log(`Part ${name} not found`, "warn");
+    log.warn(`Part ${name} not found`);
   }
 };
